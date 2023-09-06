@@ -1,23 +1,42 @@
 from django.db import models
 
-class Group(models.Model):
-    group = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200,blank=True ,unique=True)
 
+def my_default_function():
+    try:
+        return Category.objects.get(id=1)
+    except Category.DoesNotExist:
+        return None
+
+class Category(models.Model):
+    category = models.CharField(max_length=10)
     class Meta:
-        ordering = ['group']
+        ordering = ['category']
         verbose_name = 'category'
         verbose_name_plural = 'categories'
 
     def __str__(self):
+        return self.category
+
+
+class Group(models.Model):
+    group = models.CharField(max_length=200,blank=True)
+    category = models.ForeignKey(Category, related_name='car_category', on_delete=models.CASCADE, null=True, blank=True)
+    class Meta:
+        ordering = ['group']
+        verbose_name = 'group'
+        verbose_name_plural = 'groups'
+
+    def __str__(self):
         return self.group
+
+
 
 class Vehicle(models.Model):
     class Transmission(models.TextChoices):
         AUTOMATIC = 'A', 'Automatic'
         MANUAL = 'M', 'Manual'
 
-    group = models.ForeignKey(Group, related_name='car_type', on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, related_name='car_type', on_delete=models.CASCADE, null=True, blank=True)
     transmission = models.CharField(max_length=1, choices=Transmission.choices, default=Transmission.MANUAL)
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)

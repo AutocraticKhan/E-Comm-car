@@ -1,17 +1,34 @@
 from django.contrib import admin
-from .models import  Vehicle, Group
-# Register your models here.
+
+from .models import Category, Group, Vehicle
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'category')
+
+
+@admin.register(Group)
+class GroupAdmin(admin.ModelAdmin):
+    list_display = ('id', 'group', 'category')
+    list_filter = ('category',)
 
 
 @admin.register(Vehicle)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug', 'price','available', 'bags', 'passengers']
-    list_filter = ['available', 'transmission', 'group', 'passengers']
-    list_editable = ['price', 'available']
-    # prepopulated_fields = {'slug': ('name',)}
-
-@admin.register(Group)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ['group', 'slug']
-    list_filter = ['group']
- 
+class VehicleAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'group',
+        'transmission',
+        'name',
+        'slug',
+        'image',
+        'description',
+        'price',
+        'available',
+        'bags',
+        'passengers',
+    )
+    list_filter = ('group', 'available')
+    search_fields = ('name', 'slug')
+    prepopulated_fields = {'slug': ['name']}

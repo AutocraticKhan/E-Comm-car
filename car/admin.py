@@ -6,6 +6,6 @@ from .models import  Car
 @admin.register(Car)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'price','available', 'bags', 'passengers']
-    list_filter = ['available', 'transmission', 'group']
+    list_filter = ['available', 'transmission', 'group', 'passengers']
     list_editable = ['price', 'available']
     # prepopulated_fields = {'slug': ('name',)}

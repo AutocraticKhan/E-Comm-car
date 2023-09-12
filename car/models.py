@@ -33,17 +33,27 @@ class Pickup_location(models.Model):
     def __str__(self):
         return self.pickup_location
 
-class Pickup_datetime(models.Model):
+class Number_day(models.Model):
     pickup_datetime = models.DateTimeField()
-
-    def __str__(self):
-        return f"Reservation at {self.pickup_datetime}"
-
-class Return_datetime(models.Model):
     return_datetime = models.DateTimeField()
 
     def __str__(self):
-        return f"Reservation at {self.return_datetime}"
+        return f"Reservation from {self.pickup_datetime} to {self.return_datetime}"
+
+    def calculate_rental_duration(self):
+        """
+        Calculate the number of days between pickup and return.
+        """
+        days = (self.return_datetime - self.pickup_datetime).days
+        if self.pickup_datetime and self.return_datetime:
+            return days
+        else:
+            return 0
+
+
+
+    def __str__(self):
+        return f"Reservation at {self.pickup_datetime}"
 
 class Return_location(models.Model):
     return_location = models.CharField(max_length=200,blank=True)

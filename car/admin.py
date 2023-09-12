@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Sub_category, Vehicle, Return_datetime,Return_location,Pickup_datetime,Pickup_location
+from .models import Category, Sub_category, Vehicle, Number_day,Return_location,Pickup_location
 
 
 @admin.register(Pickup_location)
@@ -11,13 +11,18 @@ class CategoryAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'return_location')
 
-@admin.register(Pickup_datetime)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'pickup_datetime')
 
-@admin.register(Return_datetime)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'return_datetime')
+
+class NumberDayAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'display_rental_duration')
+
+    def display_rental_duration(self, obj):
+        return obj.calculate_rental_duration()
+
+    display_rental_duration.short_description = 'Rental Duration (days)'
+
+admin.site.register(Number_day, NumberDayAdmin)
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

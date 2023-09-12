@@ -45,11 +45,12 @@ class VehicleAdmin(admin.ModelAdmin):
         'slug',
         'image',
         'description',
+        'period',
         'price_perday',
         'available',
         'bags',
         'passengers',
     )
-    list_filter = ('sub_category', 'available')
+    list_filter = ('sub_category', 'available','period')
     search_fields = ('name', 'slug')
     prepopulated_fields = {'slug': ['name']}

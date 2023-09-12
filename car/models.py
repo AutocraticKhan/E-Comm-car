@@ -71,12 +71,18 @@ class Vehicle(models.Model):
         AUTOMATIC = 'A', 'Automatic'
         MANUAL = 'M', 'Manual'
 
+    class Periods(models.TextChoices):
+        WINTER = 'WR', 'Winter rates'
+        SUMMER = 'SR', 'Summer rates'
+        SUMMER_H = 'SHR', 'Summer High rates'
+
     sub_category = models.ForeignKey(Sub_category, related_name='car_type', on_delete=models.CASCADE, null=True, blank=True)
     transmission = models.CharField(max_length=1, choices=Transmission.choices, default=Transmission.MANUAL, blank=True)
     name = models.CharField(max_length=200, blank=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     image = models.ImageField(upload_to='vehicles/%Y/%m/%d', blank=True)
     description = models.TextField(blank=True)
+    period = models.CharField(max_length=3, choices=Periods.choices, blank=True)
     price_perday = models.DecimalField(max_digits=5, decimal_places=2)
     available = models.BooleanField(default=True)
     bags = models.IntegerField(blank=True)

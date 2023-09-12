@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Group, Vehicle
+from .models import Category, Sub_category, Vehicle
 
 
 @admin.register(Category)
@@ -8,9 +8,9 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'category')
 
 
-@admin.register(Group)
-class GroupAdmin(admin.ModelAdmin):
-    list_display = ('id', 'group', 'category')
+@admin.register(Sub_category)
+class Sub_categoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'sub_category', 'category')
     list_filter = ('category',)
 
 
@@ -18,17 +18,17 @@ class GroupAdmin(admin.ModelAdmin):
 class VehicleAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'group',
+        'sub_category',
         'transmission',
         'name',
         'slug',
         'image',
         'description',
-        'price',
+        'price_perday',
         'available',
         'bags',
         'passengers',
     )
-    list_filter = ('group', 'available')
+    list_filter = ('sub_category', 'available')
     search_fields = ('name', 'slug')
     prepopulated_fields = {'slug': ['name']}
